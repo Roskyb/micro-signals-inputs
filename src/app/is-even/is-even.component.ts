@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, computed, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, Input, input, OnChanges, SimpleChanges} from '@angular/core';
 
 @Component({
   standalone: true,
@@ -6,7 +6,18 @@ import {ChangeDetectionStrategy, Component, computed, input} from '@angular/core
   templateUrl: 'is-even.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IsEvenComponent {
-  counter = input.required<number>();
-  isEven =  computed(() => this.counter() % 2 === 0);
+export class IsEvenComponent implements OnChanges {
+
+  @Input()
+  counter!: number
+  isEven = false;
+
+
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['counter']) {
+      this.isEven =  this.counter % 2 === 0
+    }
+  }
+
 }
